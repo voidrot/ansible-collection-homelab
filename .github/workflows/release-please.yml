@@ -13,12 +13,30 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: googleapis/release-please-action@v4
+      - name: Run Release Please
+        uses: googleapis/release-please-action@v4
+        id: release
         with:
-          # this assumes that you have created a personal access token
-          # (PAT) and configured it as a GitHub action secret named
-          # `MY_RELEASE_PLEASE_TOKEN` (this secret name is not important).
           token: ${{ secrets.REPO_GITHUB_TOKEN}}
-          # this is a built-in strategy in release-please, see "Action Inputs"
-          # for more options
           release-type: simple
+      - name: Checkout Source
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/checkout@v4
+      - name: Setup Python
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - name: Install Dependencies
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          pip install -r requirements.txt -r requirements-dev.txt
+      - name: Build Collection
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          ansible-galaxy collection build
+      - name: Upload Release Artifact
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ steps.release.outputs.tag_name }} ./voidrot-homelab-*.tar.gz

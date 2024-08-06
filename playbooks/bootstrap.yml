@@ -1,0 +1,7 @@
+---
+- name: Setup New Host for Ansible
+  hosts: [all, bootstrap]
+  become: true
+  gather_facts: true
+  roles:
+    - role: bootstrap

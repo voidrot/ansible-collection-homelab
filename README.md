@@ -10,5 +10,5 @@ Documentation for the collection.
 ```
 
 ```bash
-ansible-playbook bootstrap -i hosts.yml site.yml -u remote_username ...
+ansible-playbook bootstrap -i hosts.yml site.yml -u remote_username ... -l host_name
 ```

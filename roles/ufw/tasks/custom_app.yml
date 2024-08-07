@@ -1,0 +1,8 @@
+- name: Create UFW Application Profile
+  ansible.builtin.template:
+    src: custom_app.j2
+    dest: "/etc/ufw/applications.d/{{ custom_profile.app_name }}"
+  loop: "{{ ufw_custom_app_profiles }}"
+  loop_control:
+    loop_var: custom_profile
+    label: "{{ custom_profile.app_name }}"

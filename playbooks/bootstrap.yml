@@ -1,9 +1,9 @@
 ---
 - name: Setup New Host for Ansible
-  hosts: [all, bootstrap]
+  hosts: all
   become: true
   gather_facts: true
   roles:
-    - role: bootstrap
-    - role: timezone
+    # - role: bootstrap
+    # - role: timezone
     - role: ufw

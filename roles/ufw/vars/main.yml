@@ -1,21 +1,3 @@
 ---
 # Specify the list of rules to be added to the UFW configuration
-# ufw_custom_rules:
-#   - name: my-rule-name
-#     port: 1234:2345
-#     proto: tcp
-#     rule: allow
-ufw_custom_rules: []
 
-ufw_enable_apps: []
-
-ufw_disable_apps: []
-
-ufw_deny_apps: []
-
-ufw_reject_apps: []
-
-# ufw_limit_apps:
-#   - port: ssh
-#     proto: tcp
-ufw_limit_apps: []

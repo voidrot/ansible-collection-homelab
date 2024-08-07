@@ -1,10 +1,13 @@
 ---
 - name: Import tasks
-  ansible.builtin.include_tasks: "{{ item }}"
+  ansible.builtin.include_tasks: "{{ task }}"
   loop:
     - package.yml
+    - custom_app.yml
     - apps.yml
     - custom_rule.yml
+  loop_control:
+    loop_var: task
   when:
     - ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
     - ufw_enable

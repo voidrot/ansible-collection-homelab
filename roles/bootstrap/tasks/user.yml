@@ -42,4 +42,9 @@
     user: "{{ bootstrap_ansible_username }}"
     state: present
   
-  
+- name: Remove keys from authorized_keys
+  ansible.posix.authorized_key:
+    user: "{{ bootstrap_ansible_username }}"
+    state: absent
+    key: "{{ item }}"
+  with_items: "{{ bootstrap_remove_ansible_authorized_keys }}"

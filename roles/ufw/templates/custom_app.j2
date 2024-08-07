@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+{% for profile in custom_profile.profiles %}
+[{{ profile.name }}]
+title={{ profile.title }}
+description={{ profile.description }}
+ports={{ 'tcp_ports' in profile | profile.tcp_ports|join(',') + '/tcp'}}{% if 'tcp_ports' in profile and 'udp_ports' in profile %}|{% endif %}{{ 'udp_ports' in profile | profile.udp_ports|join(',') + '/udp' }}
+{% endfor %}

@@ -2,7 +2,7 @@
 - name: Import tasks
   ansible.builtin.include_tasks: "{{ task }}"
   loop:
-    - package.yml
+    - install.yml
     - custom_app.yml
     - apps.yml
     - custom_rule.yml

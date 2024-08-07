@@ -1,0 +1,38 @@
+- name: Create traefik group
+  ansible.builtin.group:
+    name: "{{ traefik_group }}"
+    system: true
+
+- name: Create traefik user
+  ansible.builtin.user:
+    name: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    shell: /bin/false
+    system: true
+    createhome: false
+
+- name: Check if Traefik Binary Exists
+  ansible.builtin.stat:
+    path: "{{ traefik_bin_path }}"
+  register: traefik_binary_exists
+
+- name: Install Traefik Binary
+  ansible.builtin.unarchive:
+    src: https://github.com/traefik/traefik/releases/download/{{ traefik_version_latest.tag }}/traefik_{{ traefik_version_latest.tag }}_linux_{{ arch }}.tar.gz
+    dest: "{{ traefik_bin_path }}"
+    exclude:
+      - CHANGELOG.md
+      - LICENSE.md
+    owner: root
+    group: root
+    remote_src: true
+  when:
+    - not traefik_binary_exists.stat.exists or traefik_upgrade
+
+- name: Create traefik config directory
+  ansible.builtin.file:
+    path: "{{ traefik_config_dir }}"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    state: directory
+    mode: '0755'

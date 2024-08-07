@@ -4,6 +4,15 @@
   become: true
   gather_facts: true
   roles:
-    # - role: bootstrap
-    # - role: timezone
-    - role: ufw
+    - role: bootstrap
+    - role: timezone
+
+- name: Setup UFW
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Import UFW Setup Task
+      ansible.builtin.include_role:
+        name: ufw
+        tasks_from: install.yml

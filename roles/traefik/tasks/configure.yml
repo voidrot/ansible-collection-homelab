@@ -1,0 +1,11 @@
+- name: Configure traefik
+  ansible.builtin.template:
+    src: traefik.yml.j2
+    dest: "{{ traefik_config_dir }}/traefik.yml"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    mode: '0644'
+    lstrip_blocks: true
+    trim_blocks: true
+  notify: 
+    - Restart traefik

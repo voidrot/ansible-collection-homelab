@@ -1,2 +1,8 @@
 ---
 # defaults file for traefik
+traefik_bin_path: /usr/local/bin
+traefik_version: latest
+traefik_upgrade: false
+traefik_user: traefik
+traefik_group: traefik
+traefik_config_dir: /etc/traefik

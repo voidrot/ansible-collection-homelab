@@ -30,24 +30,23 @@ ufw_limit_apps: []
 
 
 # ufw_custom_app_profiles:
-#   - app_name: Apache
-#     profiles:
-#       - name: Apache
-#         title: Web Server
-#         description: Apache Web Server
-#         tcp_ports:
-#           - 80
-#       - name: Apache Secure
-#         title: Web Server
-#         description: Apache Web Server
-#         tcp_ports:
-#           - 443
-#       - name: Apache Full
-#         title: Web Server
-#         description: Apache Web Server
-#         tcp_ports:
-#           - 80
-#           - 443
-#         udp_ports:
-#           - 123
+#   apache:
+#     - name: Apache
+#       title: Web Server
+#       description: Apache Web Server
+#       tcp_ports:
+#         - 80
+#     - name: Apache Secure
+#       title: Web Server
+#       description: Apache Web Server
+#       tcp_ports:
+#         - 443
+#     - name: Apache Full
+#       title: Web Server
+#       description: Apache Web Server
+#       tcp_ports:
+#         - 80
+#         - 443
+#       udp_ports:
+#         - 123
 ufw_custom_app_profiles: []

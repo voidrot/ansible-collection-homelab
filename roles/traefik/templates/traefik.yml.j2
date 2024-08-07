@@ -1,0 +1,18 @@
+{{ ansible_managed | comment }}
+
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+{{ traefik_config_providers | to_nice_yaml }}
+
+{{ traefik_config_entrypoints | to_nice_yaml }}
+
+{{ traefik_config_api | to_nice_yaml }}
+
+metrics:
+  prometheus:
+    addEntryPointsLabels: true
+    addServicesLabels: true
+    addRoutersLabels: true
+    entryPoint: metrics

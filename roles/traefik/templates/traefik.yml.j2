@@ -1,18 +1,34 @@
 {{ ansible_managed | comment }}
 
 global:
-  checkNewVersion: true
-  sendAnonymousUsage: false
+  checkNewVersion: {{ traefik_global.check_new_version }}
+  sendAnonymousUsage: {{ traefik_global.send_anonymous_usage }}
 
-{{ traefik_config_providers | to_nice_yaml }}
+providers:
+  {% for provider, opts in traefik_providers.items() %}
+  {{ provider }}:
+    {% for key, value in opts.items() %}
+    {{ key }}: {{ value }}
+    {% endfor %}
+  {% endfor %}
+  {% for custom_opt, custom_val in traefik_providers_custom_opts.items() %}
+  {{ custom_opt }}: {{ custom_val }}
+  {% endfor %}
 
-{{ traefik_config_entrypoints | to_nice_yaml }}
 
-{{ traefik_config_api | to_nice_yaml }}
+api:
+  dashboard: {{ traefik_api.dashboard }}
+  insecure: {{ traefik_api.insecure }}
+  debug: {{ traefik_api.debug }}
+  disableDashboardAd: {{ traefik_api.disableDashboardAd }}
 
 metrics:
-  prometheus:
-    addEntryPointsLabels: true
-    addServicesLabels: true
-    addRoutersLabels: true
-    entryPoint: metrics
+  {% for metric, opts in traefik_metrics.items() %}
+  {{ metric }}:
+    {% for key, value in opts.items() %}
+    {{ key }}: {{ value }}
+    {% endfor %}
+  {% endfor %}
+  {% for custom_opt, custom_val in traefik_metrics_custom_opts.items() %}
+  {{ custom_opt }}: {{ custom_val }}
+  {% endfor %}

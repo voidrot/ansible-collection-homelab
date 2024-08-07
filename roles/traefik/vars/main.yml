@@ -1,32 +1,76 @@
 ---
-# vars file for traefik
-traefik_config_providers:
-  file:
-    directory: "{{ traefik_config_dir + '/conf.d/' }}"
-    watch: true
-
-traefik_config_entrypoints:
-  metrics:
-    address: ":9999"
-  web:
-    address: ":80"
-    reuseport: true
+# traefik global configuration
+traefik_static_config:
+  global:
+    checkNewVersion: true
+    sendAnonymousUsage: true
+  providers:
+    file:
+      directory: "{{ traefik_config_dir }}/conf.d/"
+      watch: true
+  entryPoints:
+    web:
+      address: ":80"
+      reusePort: true
+    websecure:
+      address: ":443"
+      reusePort: true
+      http2:
+        maxConcurrentStreams: 250
+      forwardedHeaders:
+        insecure: true
+    metrics:
+      address: ":8080"
+      reusePort: true
+      forwardedHeaders:
+        insecure: true
     http:
       redirections:
         entryPoint:
           to: websecure
-          scheme: https
+          schema: https
           permanent: true
-  websecure:
-    address: ":443"
-    reuseport: true
-    asDefault: true
-    http2:
-      maxConcurrentStreams: 250
-    forwardedHeaders:
-      insecure: true
+  api:
+    dashboard: true
+    insecure: true
+    debug: false
+    disableDashboardAd: true
+  metrics:
+    prometheus:
+      entryPoint: metrics
+      addEntryPointsLabels: true
+      addRoutersLabels: true
+      addServicesLabels: true
+  certificatesResolvers:
+    letsencrypt:
+      acme:
+        email: "{{ traefik_letsencrypt_email }}"
+        storage: "acme"
+        httpChallenge:
+          entryPoint: web
+        caServer: https://acme-v02.api.letsencrypt.org/directory
+      httpChallenge:
+        entryPoint: web
+    letsencryptStaging:
+      acme:
+        email: "{{ traefik_letsencrypt_email }}"
+        storage: "acme"
+        httpChallenge:
+          entryPoint: web
+        caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      httpChallenge:
+        entryPoint: web
 
-traefik_config_api:
-  insecure: "{{ traefik_api_insecure | default(false) }}"
-  dashboard: "{{ traefik_api_dashboard | default(true) }}"
+traefik_providers_custom_opts: {}
+
+traefik_metrics:
+  
+
+traefik_metrics_custom_opts:
+  addInternals: true
+
+traefik_api:
+  dashboard: true
+  insecure: true
+  debug: true
   disableDashboardAd: true

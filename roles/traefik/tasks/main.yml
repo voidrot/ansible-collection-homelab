@@ -14,18 +14,10 @@
   delegate_to: localhost
   when: traefik_version == "latest"
 
-# - name: debug
-#   ansible.builtin.debug:
-#     var: traefik_version_latest
-
 - name: Install Traefik
   ansible.builtin.include_tasks:
     file: install.yml
 
-- name: Configure Traefik Service
+- name: Configure sites
   ansible.builtin.include_tasks:
-    file: service.yml
-
-- name: Configure Traefik
-  ansible.builtin.include_tasks:
-    file: configure.yml
+    file: sites.yml

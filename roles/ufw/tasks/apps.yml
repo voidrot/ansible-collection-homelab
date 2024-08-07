@@ -1,0 +1,42 @@
+---
+- name: Delete App
+  community.general.ufw:
+    name: "{{ disable_rule }}"
+    delete: true
+    rule: allow
+  loop: "{{ ufw_disable_apps }}"
+  loop_control:
+    loop_var: disable_rule
+
+- name: Allow App
+  community.general.ufw:
+    name: "{{ enable_rule }}"
+    rule: allow
+  loop: "{{ ufw_enable_apps }}"
+  loop_control:
+    loop_var: enable_rule
+
+- name: Deny App
+  community.general.ufw:
+    name: "{{ deny_rule }}"
+    rule: deny
+  loop: "{{ ufw_deny_apps }}"
+  loop_control:
+    loop_var: deny_rule
+
+- name: Reject App
+  community.general.ufw:
+    name: "{{ reject_rule }}"
+    rule: reject
+  loop: "{{ ufw_reject_apps }}"
+  loop_control:
+    loop_var: reject_rule
+
+- name: Limit App
+  community.general.ufw:
+    rule: limit
+    port: "{{ limit_rule.port }}"
+    proto: "{{ limit_rule.proto }}"
+  loop: "{{ ufw_limit_apps }}"
+  loop_control:
+    loop_var: limit_rule

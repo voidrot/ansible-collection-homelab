@@ -1,0 +1,9 @@
+---
+# defaults file for ufw
+ufw_enable: true
+ufw_use_reject: false
+
+ufw_default_allow_apps:
+  - OpenSSH
+
+ufw_default_deny_apps: []

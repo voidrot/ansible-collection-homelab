@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/voidrot/ansible-collection-homelab/compare/v1.0.0...v1.0.1) (2024-08-08)
+
+
+### Bug Fixes
+
+* **docker:** add missing apt repo template ([b63fe5a](https://github.com/voidrot/ansible-collection-homelab/commit/b63fe5a6bbb17d5deae66e542433ddce865467c0))
+
 ## 1.0.0 (2024-08-08)
 
 

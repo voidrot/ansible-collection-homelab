@@ -1,0 +1,9 @@
+---
+- name: Set vm.swappiness
+  ansible.posix.sysctl:
+    name: vm.swappiness
+    value: "{{ base_vm_swappiness }}"
+    state: present
+    reload: true
+    sysctl_file: /etc/sysctl.d/99-swappiness.conf
+    sysctl_set: true

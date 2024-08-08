@@ -1,2 +1,5 @@
 ---
-# vars file for base
+base_ansible_username: "ansible"
+base_ansible_group: "ansible"
+base_ansible_default_groups: "sudo,adm,plugdev,systemd-journal"
+

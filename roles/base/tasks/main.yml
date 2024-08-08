@@ -1,2 +1,11 @@
 ---
-# tasks file for base
+- name: Import Ansible User Task
+  ansible.builtin.import_tasks: user.yml
+
+- name: Import Locale Task
+  ansible.builtin.import_tasks: locale.yml
+
+- name: Import Package Task (Debian/Ubuntu)
+  ansible.builtin.import_tasks: packages.yml
+  when:
+    - ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'

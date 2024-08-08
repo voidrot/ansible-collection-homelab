@@ -1,2 +1,37 @@
 ---
-# defaults file for base
+# defaults file for setup
+base_default_packages:
+  - bash
+  - curl
+  - rsync
+  - neovim
+  - less
+  - lsof
+  - tree
+  - htop
+  - iftop
+  - unzip
+  - btop
+  - iotop
+  - wget
+  - ssh
+  - wget
+  - tzdata
+  # - needrestart
+
+base_extra_ansible_user_groups: ""
+
+
+base_extra_packages: []
+
+# base_ansible_authorized_keys: -|
+#   ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDfZ
+#   ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDfZ
+
+# base_ansible_authorized_keys: []
+
+# base_remove_ansible_authorized_keys:
+#   - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDfZ
+# base_remove_ansible_authorized_keys: []
+
+base_vm_swappiness: 10

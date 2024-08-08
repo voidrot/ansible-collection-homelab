@@ -29,9 +29,45 @@
   when:
     - not traefik_binary_exists.stat.exists or traefik_upgrade
 
+- name: Create traefik systemd service
+  ansible.builtin.template:
+    src: traefik.service.j2
+    dest: "/etc/systemd/system/traefik.service"
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Reload systemd
+    - Restart traefik
+
+- name: Ensure acme.json exists
+  ansible.builtin.file:
+    path: "{{ traefik_config_dir }}/acme.json"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    mode: '0600'
+    state: touch
+
+- name: Ensure acme-staging.json exists
+  ansible.builtin.file:
+    path: "{{ traefik_config_dir }}/acme-staging.json"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    mode: '0600'
+    state: touch
+
+
 - name: Create traefik config directory
   ansible.builtin.file:
     path: "{{ traefik_config_dir }}"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    state: directory
+    mode: '0755'
+
+- name: Create traefik conf.d directory
+  ansible.builtin.file:
+    path: "{{ traefik_config_dir }}/conf.d"
     owner: "{{ traefik_user }}"
     group: "{{ traefik_group }}"
     state: directory

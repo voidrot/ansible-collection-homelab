@@ -7,3 +7,54 @@ traefik_user: traefik
 traefik_group: traefik
 traefik_config_dir: /etc/traefik
 
+# traefik_acme:
+#   env_vars:
+#     - name: CF_API_EMAIL
+#       value: "{{ cloudflare_email }}"
+#     - name: CF_API_KEY
+#       value: "{{ cloudflare_api_key }}"
+
+traefik_static_config:
+  global:
+    checkNewVersion: true
+    sendAnonymousUsage: true
+  providers:
+    file:
+      directory: "{{ traefik_config_dir }}/conf.d/"
+      watch: true
+  ping: {}
+  entryPoints:
+    web:
+      address: ":80"
+      reusePort: true
+    websecure:
+      address: ":443"
+      reusePort: true
+      http2:
+        maxConcurrentStreams: 250
+      forwardedHeaders:
+        insecure: true
+    metrics:
+      address: ":8080"
+      reusePort: true
+      forwardedHeaders:
+        insecure: true
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          schema: https
+          permanent: true
+  api:
+    dashboard: true
+    insecure: true
+    debug: false
+    disableDashboardAd: true
+  metrics:
+    prometheus:
+      entryPoint: metrics
+      addEntryPointsLabels: true
+      addRoutersLabels: true
+      addServicesLabels: true
+
+traefik_sites: []

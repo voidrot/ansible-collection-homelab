@@ -1,0 +1,26 @@
+---
+- name: Configure TLS
+  ansible.builtin.template:
+    src: tls.yml.j2
+    dest: "{{ traefik_config_dir }}/conf.d/tls.yml"
+    trim_blocks: true
+    lstrip_blocks: true
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    mode: '0644'
+  when: traefik_tls is defined
+
+- name: Configure Sites
+  ansible.builtin.template:
+    src: site.yml.j2
+    dest: "{{ traefik_config_dir }}/conf.d/{{ site_config.name }}.yml"
+    trim_blocks: true
+    lstrip_blocks: true
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    mode: '0644'
+  loop: "{{ traefik_sites }}"
+  loop_control:
+    loop_var: site_config
+    label: "{{ site_config.name }}"
+  when: traefik_sites is defined

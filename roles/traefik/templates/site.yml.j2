@@ -1,0 +1,16 @@
+{{ ansible_managed | comment }}
+{% if site_config.http is defined %}
+{% set http_config = site_config.http %}
+http:
+  {{ http_config | to_nice_yaml(indent=2) | indent(2) }}
+{% endif %}
+{% if site_config.tcp is defined %}
+{% set tcp_config = site_config.tcp %}
+tcp:
+  {{ tcp_config | to_nice_yaml(indent=2 | indent(2)) }}
+{% endif %}
+{% if site_config.udp is defined %}
+{% set udp_config = site_config.udp %}
+udp:
+  {{ upd_config | to_nice_yaml(indent=2) | indent(2) }}
+{% endif %}

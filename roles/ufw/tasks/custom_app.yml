@@ -8,3 +8,4 @@
   loop_control:
     loop_var: custom_app
     label: "{{ custom_app.app_name }}"
+  notify: Reload UFW

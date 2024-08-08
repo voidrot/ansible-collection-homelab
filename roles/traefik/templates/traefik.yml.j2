@@ -1,34 +1,3 @@
 {{ ansible_managed | comment }}
 
-global:
-  checkNewVersion: {{ traefik_global.check_new_version }}
-  sendAnonymousUsage: {{ traefik_global.send_anonymous_usage }}
-
-providers:
-  {% for provider, opts in traefik_providers.items() %}
-  {{ provider }}:
-    {% for key, value in opts.items() %}
-    {{ key }}: {{ value }}
-    {% endfor %}
-  {% endfor %}
-  {% for custom_opt, custom_val in traefik_providers_custom_opts.items() %}
-  {{ custom_opt }}: {{ custom_val }}
-  {% endfor %}
-
-
-api:
-  dashboard: {{ traefik_api.dashboard }}
-  insecure: {{ traefik_api.insecure }}
-  debug: {{ traefik_api.debug }}
-  disableDashboardAd: {{ traefik_api.disableDashboardAd }}
-
-metrics:
-  {% for metric, opts in traefik_metrics.items() %}
-  {{ metric }}:
-    {% for key, value in opts.items() %}
-    {{ key }}: {{ value }}
-    {% endfor %}
-  {% endfor %}
-  {% for custom_opt, custom_val in traefik_metrics_custom_opts.items() %}
-  {{ custom_opt }}: {{ custom_val }}
-  {% endfor %}
+{{ traefik_static_config | to_nice_yaml }}

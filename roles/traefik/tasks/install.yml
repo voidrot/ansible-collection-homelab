@@ -1,0 +1,86 @@
+- name: Create traefik group
+  ansible.builtin.group:
+    name: "{{ traefik_group }}"
+    system: true
+
+- name: Create traefik user
+  ansible.builtin.user:
+    name: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    shell: /bin/false
+    system: true
+    createhome: false
+
+- name: Check if Traefik Binary Exists
+  ansible.builtin.stat:
+    path: "{{ traefik_bin_path }}"
+  register: traefik_binary_exists
+
+- name: Install Traefik Binary
+  ansible.builtin.unarchive:
+    src: https://github.com/traefik/traefik/releases/download/{{ traefik_version_latest.tag }}/traefik_{{ traefik_version_latest.tag }}_linux_{{ arch }}.tar.gz
+    dest: "{{ traefik_bin_path }}"
+    exclude:
+      - CHANGELOG.md
+      - LICENSE.md
+    owner: root
+    group: root
+    remote_src: true
+  when:
+    - not traefik_binary_exists.stat.exists or traefik_upgrade
+
+- name: Create traefik systemd service
+  ansible.builtin.template:
+    src: traefik.service.j2
+    dest: "/etc/systemd/system/traefik.service"
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Reload systemd
+    - Restart traefik
+
+- name: Ensure acme.json exists
+  ansible.builtin.file:
+    path: "{{ traefik_config_dir }}/acme.json"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    mode: '0600'
+    state: touch
+
+- name: Ensure acme-staging.json exists
+  ansible.builtin.file:
+    path: "{{ traefik_config_dir }}/acme-staging.json"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    mode: '0600'
+    state: touch
+
+
+- name: Create traefik config directory
+  ansible.builtin.file:
+    path: "{{ traefik_config_dir }}"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    state: directory
+    mode: '0755'
+
+- name: Create traefik conf.d directory
+  ansible.builtin.file:
+    path: "{{ traefik_config_dir }}/conf.d"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    state: directory
+    mode: '0755'
+
+- name: Configure traefik
+  ansible.builtin.template:
+    src: traefik.yml.j2
+    dest: "{{ traefik_config_dir }}/traefik.yml"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    mode: '0644'
+    lstrip_blocks: true
+    trim_blocks: true
+  notify:
+    - Restart traefik

@@ -1,0 +1,23 @@
+---
+# tasks file for ufw
+- name: Update Package Cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install UFW
+  ansible.builtin.package:
+    name: ufw
+    state: present
+
+# Enable default rules before we enable
+- name: Allow OpenSSH
+  community.general.ufw:
+    rule: allow
+    name: OpenSSH
+  notify:
+    - Reload UFW
+
+- name: Enable UFW
+  community.general.ufw:
+    state: enabled
+    policy: "{{ 'reject' if ufw_use_reject else 'deny' }}"

@@ -1,2 +1,23 @@
 ---
 # tasks file for traefik
+- name: Set architecture specific variables
+  ansible.builtin.set_fact:
+    arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+
+- name: Get latest version of Traefik
+  community.general.github_release:
+    user: traefik
+    repo: traefik
+    action: latest_release
+  register: traefik_version_latest
+  run_once: true
+  delegate_to: localhost
+  when: traefik_version == "latest"
+
+- name: Install Traefik
+  ansible.builtin.include_tasks:
+    file: install.yml
+
+- name: Manage configurations
+  ansible.builtin.include_tasks:
+    file: config.yml

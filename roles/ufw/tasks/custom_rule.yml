@@ -1,0 +1,36 @@
+---
+- name: Add custom UFW rule
+  community.general.ufw:
+    comment: "{{ custom_rule.comment | default(omit) }}"
+    default: "{{ custom_rule.default | default(omit) }}"
+    policy: "{{ custom_rule.policy | default(omit) }}"
+    delete: "{{ custom_rule.delete | default(false) | boolean }}"
+    direction: "{{ custom_rule.direction | default(omit) }}"
+    from_ip: "{{ custom_rule.from_ip | default(omit) }}"
+    from: "{{ custom_rule.from | default(omit) }}"
+    src: "{{ custom_rule.src | default(omit) }}"
+    from_port: "{{ custom_rule.from_port | default(omit) }}"
+    insert: "{{ custom_rule.insert | default(omit) }}"
+    insert_relative_to: "{{ custom_rule.insert_relative_to | default('omit') }}"
+    interface: "{{ custom_rule.interface | default(omit) }}"
+    if: "{{ custom_rule.if | default(omit) }}"
+    log: "{{ custom_rule.log | default(omit) }}"
+    logging: "{{ custom_rule.logging | default(omit) }}"
+    name: "{{ custom_rule.name | default(omit) }}"
+    app: "{{ custom_rule.app | default(omit) }}"
+    proto: "{{ custom_rule.proto | default(omit) }}"
+    protocol: "{{ custom_rule.protocol | default(omit) }}"
+    route: "{{ custom_rule.route | default(omit) }}"
+    rule: "{{ custom_rule.rule | default(omit) }}"
+    state: "{{ custom_rule.state | default(omit) }}"
+    to_ip: "{{ custom_rule.to_ip | default(omit) }}"
+    dest: "{{ custom_rule.dest | default(omit) }}"
+    to: "{{ custom_rule.to | default(omit) }}"
+    to_port: "{{ custom_rule.to_port | default(omit) }}"
+    port: "{{ custom_rule.port | default(omit) }}"
+  loop: "{{ ufw_custom_rules }}"
+  loop_control:
+    loop_var: custom_rule
+  notify: 
+    - Reload UFW
+  when: ufw_enable

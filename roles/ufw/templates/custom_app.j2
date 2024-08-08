@@ -1,0 +1,14 @@
+{{ ansible_managed | comment }}
+
+{% for app in custom_app.profiles %}
+
+{% raw %}[{% endraw %}
+{{- app.name -}}
+{% raw %}]{% endraw %}
+
+title={{ app.title }}
+description={{ app.description }}
+ports={% if 'tcp_ports' in app %}{{ app.tcp_ports|join(',') + '/tcp'}}{% endif %}{% if 'tcp_ports' in app and 'udp_ports' in app %}|{% endif %}{% if 'udp_ports' in app %}{{ app.udp_ports|join(',') + '/udp' }}{% endif %}
+
+{%+ endfor +%}
+

@@ -1,0 +1,6 @@
+---
+# tasks file for timezone
+- name: Configure Timezone
+  community.general.timezone:
+    name: "{{ timezone_tz_name | default('UTC') }}"
+    hwclock: "{{ timezone_hwclock | default('UTC') }}"

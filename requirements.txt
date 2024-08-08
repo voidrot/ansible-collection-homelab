@@ -1,1 +1,3 @@
 # TO-DO: add python packages that are required for this collection
+ansible
+github3.py>=1.0.0a3

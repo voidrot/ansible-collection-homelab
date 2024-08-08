@@ -1,0 +1,52 @@
+---
+# defaults file for ufw
+ufw_enable: true
+ufw_use_reject: false
+
+ufw_default_allow_apps:
+  - OpenSSH
+
+ufw_default_deny_apps: []
+
+# ufw_custom_rules:
+#   - name: my-rule-name
+#     port: 1234:2345
+#     proto: tcp
+#     rule: allow
+ufw_custom_rules: []
+
+ufw_enable_apps: []
+
+ufw_disable_apps: []
+
+ufw_deny_apps: []
+
+ufw_reject_apps: []
+
+# ufw_limit_apps:
+#   - port: ssh
+#     proto: tcp
+ufw_limit_apps: []
+
+
+# ufw_custom_app_profiles:
+#   apache:
+#     - name: Apache
+#       title: Web Server
+#       description: Apache Web Server
+#       tcp_ports:
+#         - 80
+#     - name: Apache Secure
+#       title: Web Server
+#       description: Apache Web Server
+#       tcp_ports:
+#         - 443
+#     - name: Apache Full
+#       title: Web Server
+#       description: Apache Web Server
+#       tcp_ports:
+#         - 80
+#         - 443
+#       udp_ports:
+#         - 123
+ufw_custom_app_profiles: []

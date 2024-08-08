@@ -1,0 +1,21 @@
+---
+# defaults file for setup
+bootstrap_default_packages:
+  - bash
+  - curl
+  - rsync
+  - neovim
+  - less
+  - lsof
+  - tree
+  - htop
+  - iftop
+  - unzip
+  - btop
+  - iotop
+  - wget
+  - ssh
+  - wget
+  - tzdata
+  # - needrestart
+

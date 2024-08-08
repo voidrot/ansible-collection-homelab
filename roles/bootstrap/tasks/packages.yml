@@ -1,0 +1,21 @@
+- name: Update Package Cache
+  ansible.builtin.apt:
+    update_cache: true
+  when: ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
+
+- name: Install Base Packages
+  ansible.builtin.package:
+    name: "{{ base_package }}"
+    state: present
+  with_items: "{{ bootstrap_default_packages }}"
+  loop_control:
+    loop_var: base_package
+  # TODO: Update this to do a lookup of os_family and get correct packages
+
+- name: Install Extra Packages
+  ansible.builtin.package:
+    name: "{{ extra_package }}"
+    state: present
+  with_items: "{{ bootstrap_extra_packages }}"
+  loop_control:
+    loop_var: extra_package

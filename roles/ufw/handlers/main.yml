@@ -1,0 +1,9 @@
+---
+# handlers file for ufw
+- name: Reload UFW
+  community.general.ufw:
+    state: reloaded
+
+- name: Reset UFW
+  community.general.ufw:
+    state: reloaded

@@ -32,4 +32,4 @@
   ansible.builtin.package:
     name: lm-sensors
     state: present
-  when: ansible_virtualization_role == "NA"
+  when: ansible_virtualization_type == "NA"

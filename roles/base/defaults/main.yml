@@ -19,19 +19,27 @@ base_default_packages:
   - tzdata
   # - needrestart
 
-base_extra_ansible_user_groups: ""
+base_ansible_username: "ansible"
+base_ansible_group: "ansible"
+base_ansible_default_groups:
+  - sudo
+  - adm
+  - plugdev
+  - systemd-journal
+
+base_extra_ansible_user_groups: []
 
 
 base_extra_packages: []
 
-# base_ansible_authorized_keys: -|
-#   ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDfZ
-#   ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDfZ
-
 # base_ansible_authorized_keys: []
+# base_ansible_authorized_keys:
+# - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDfZ
+# - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDfZ
+
+base_remove_ansible_authorized_keys: []
 
 # base_remove_ansible_authorized_keys:
 #   - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDfZ
-# base_remove_ansible_authorized_keys: []
 
 base_vm_swappiness: 10

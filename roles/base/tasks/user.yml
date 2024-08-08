@@ -13,7 +13,7 @@
     state: present
     shell: /bin/bash
     create_home: true
-    groups: "{{ base_ansible_default_groups }},{{ base_extra_ansible_user_groups }}"
+    groups: "{{ base_ansible_default_groups | zip(base_extra_ansible_user_groups) | join(',') }}"
     expires: -1
     append: true
     system: true

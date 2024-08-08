@@ -29,44 +29,43 @@ ufw_reject_apps: []
 ufw_limit_apps: []
 
 ufw_default_app_profiles:
-  treafik:
-    - app_name: traefik
-      profiles:
-        - name: Traefik
-          title: Web Server
-          description: Allow HTTP and HTTPS traffic
-          tcp_ports:
-            - 80
-            - 443
-            - 8080
-            - 9000
-    - app_name: tempo
-      profiles:
-        - name: Grafana Tempo
-          title: Telemetry Aggregator
-          description: Allow tempo default port
-          tcp_ports:
-            - 3200
-    - app_name: mimir
-      profiles:
-        - name: Grafana Mimir
-          title: Metrics Aggregator
-          description: Allow mimir default port
-          tcp_ports:
-            - 8080
-    - app_name: loki
-      profiles:
-        - name: Loki
-          title: Logging Aggregator
-          description: Allow loki default port
-          tcp_ports:
-            - 3100
-    - app_name: grafana
-      profiles:
-        - name: Grafana
-          title: Monitoring Dashboard
-          description: Allow grafana default port
-          tcp_ports:
-            - 3000
+  - app_name: traefik
+    profiles:
+      - name: Traefik
+        title: Web Server
+        description: Allow HTTP and HTTPS traffic
+        tcp_ports:
+          - 80
+          - 443
+          - 8080
+          - 9000
+  - app_name: tempo
+    profiles:
+      - name: Grafana Tempo
+        title: Telemetry Aggregator
+        description: Allow tempo default port
+        tcp_ports:
+          - 3200
+  - app_name: mimir
+    profiles:
+      - name: Grafana Mimir
+        title: Metrics Aggregator
+        description: Allow mimir default port
+        tcp_ports:
+          - 8080
+  - app_name: loki
+    profiles:
+      - name: Loki
+        title: Logging Aggregator
+        description: Allow loki default port
+        tcp_ports:
+          - 3100
+  - app_name: grafana
+    profiles:
+      - name: Grafana
+        title: Monitoring Dashboard
+        description: Allow grafana default port
+        tcp_ports:
+          - 3000
 
 ufw_custom_app_profiles: []

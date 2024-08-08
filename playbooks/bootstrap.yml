@@ -4,7 +4,6 @@
   become: true
   gather_facts: true
   roles:
-<<<<<<< Updated upstream
     - role: base
     - role: timezone
   tasks:
@@ -17,17 +16,3 @@
         name: ufw
         tasks_from: custom_rule.yml
 
-=======
-    - role: bootstrap
-    # - role: timezone
-
-# - name: Setup UFW
-#   hosts: bootstrap
-#   become: true
-#   gather_facts: true
-#   tasks:
-#     - name: Import UFW Setup Task
-#       ansible.builtin.include_role:
-#         name: ufw
-#         tasks_from: install.yml
->>>>>>> Stashed changes

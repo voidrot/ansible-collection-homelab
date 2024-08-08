@@ -19,6 +19,8 @@ jobs:
         with:
           token: ${{ secrets.REPO_GITHUB_TOKEN}}
           release-type: simple
+          extra-files: |
+            galaxy.yml
       - name: Checkout Source
         if: ${{ steps.release.outputs.release_created }}
         uses: actions/checkout@v4

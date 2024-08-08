@@ -1,0 +1,6 @@
+---
+# defaults file for docker
+docker_daemon_insecure_registries: []
+docker_daemon_registry_mirrors: []
+docker_apt_repo_url: "https://download.docker.com/linux/ubuntu"
+docker_repo_channel: stable

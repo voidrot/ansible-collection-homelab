@@ -1,3 +1,15 @@
+- name: Create Default UFW Application Profile
+  ansible.builtin.template:
+    src: custom_app.j2
+    dest: "/etc/ufw/applications.d/{{ default_app.app_name }}"
+    trim_blocks: true
+    lstrip_blocks: true
+  loop: "{{ ufw_default_app_profiles }}"
+  loop_control:
+    loop_var: custom_app
+    label: "{{ default_app.app_name }}"
+  notify: Reload UFW
+  
 - name: Create UFW Application Profile
   ansible.builtin.template:
     src: custom_app.j2

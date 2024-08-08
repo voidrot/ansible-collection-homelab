@@ -1,3 +1,11 @@
+- name: Create APT keyrings directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+    owner: root
+  when: ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
+  
 - name: Update Package Cache
   ansible.builtin.apt:
     update_cache: true
@@ -7,7 +15,7 @@
   ansible.builtin.package:
     name: "{{ base_package }}"
     state: present
-  with_items: "{{ bootstrap_default_packages }}"
+  with_items: "{{ base_default_packages }}"
   loop_control:
     loop_var: base_package
   # TODO: Update this to do a lookup of os_family and get correct packages
@@ -16,6 +24,12 @@
   ansible.builtin.package:
     name: "{{ extra_package }}"
     state: present
-  with_items: "{{ bootstrap_extra_packages }}"
+  with_items: "{{ base_extra_packages }}"
   loop_control:
     loop_var: extra_package
+
+- name: Install lm-sensors
+  ansible.builtin.package:
+    name: lm-sensors
+    state: present
+  when: ansible_virtualization_role == "NA"

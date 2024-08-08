@@ -1,27 +1,27 @@
 ---
 - name: Create ansible group
   ansible.builtin.group:
-    name: "{{ bootstrap_ansible_group }}"
+    name: "{{ base_ansible_group }}"
     state: present
     system: true
 
 - name: Create ansible user
   ansible.builtin.user:
-    name: "{{ bootstrap_ansible_username }}"
-    group: "{{ bootstrap_ansible_group }}"
+    name: "{{ base_ansible_username }}"
+    group: "{{ base_ansible_group }}"
     comment: "Ansible User"
     state: present
     shell: /bin/bash
     create_home: true
-    groups: "{{ bootstrap_ansible_default_groups }},{{ bootstrap_extra_ansible_user_groups }}"
+    groups: "{{ base_ansible_default_groups }},{{ base_extra_ansible_user_groups }}"
     expires: -1
     append: true
     system: true
 
 - name: Grant sudo access to ansible user
   community.general.sudoers:
-    name: "{{ bootstrap_ansible_username }}"
-    user: "{{ bootstrap_ansible_username }}"
+    name: "{{ base_ansible_username }}"
+    user: "{{ base_ansible_username }}"
     host: ALL
     runas: ALL
     commands: ALL
@@ -29,22 +29,27 @@
 
 - name: Create SSH directory
   ansible.builtin.file:
-    path: "/home/{{ bootstrap_ansible_username }}/.ssh"
+    path: "/home/{{ base_ansible_username }}/.ssh"
     state: directory
     recurse: false
-    owner: "{{ bootstrap_ansible_username }}"
-    group: "{{ bootstrap_ansible_group }}"
+    owner: "{{ base_ansible_username }}"
+    group: "{{ base_ansible_group }}"
     mode: '0700'
 
 - name: Add SSH authroized key file
   ansible.posix.authorized_key:
-    key: "{{ bootstrap_ansible_authorized_keys }}"
-    user: "{{ bootstrap_ansible_username }}"
+    key: "{{ authorized_key }}"
+    user: "{{ base_ansible_username }}"
     state: present
-  
+  with_items: "{{ base_ansible_authorized_keys }}"
+  loop_control:
+    loop_var: authorized_key
+
 - name: Remove keys from authorized_keys
   ansible.posix.authorized_key:
-    user: "{{ bootstrap_ansible_username }}"
+    user: "{{ unauthorized_key }}"
     state: absent
     key: "{{ item }}"
-  with_items: "{{ bootstrap_remove_ansible_authorized_keys }}"
+  with_items: "{{ base_remove_ansible_authorized_keys }}"
+  loop_control:
+    loop_var: unauthorized_key

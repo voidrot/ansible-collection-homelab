@@ -1,0 +1,15 @@
+---
+# defaults file for unattended-upgrade
+unattended_upgrades_security_autoupdate_enabled: true
+unattended_upgrades_security_autoupdate_blacklist: []
+unattended_upgrades_security_autoupdate_additional_origins: []
+
+unattended_upgrades_security_autoupdate_reboot: "{{ unattended_upgrades_reboot }}"
+unattended_upgrades_security_autoupdate_reboot_time: "{{ unattended_upgrades_reboot_time }}"
+unattended_upgrades_security_autoupdate_mail_to: "{{ unattended_upgrades_mail_to }}"
+unattended_upgrades_security_autoupdate_mail_on_error: "{{ unattended_upgrades_mail_on_error }}"
+
+unattended_upgrades_reboot: "false"
+unattended_upgrades_reboot_time: "03:00"
+unattended_upgrades_mail_to: "root@localhost"
+unattended_upgrades_mail_on_error: true

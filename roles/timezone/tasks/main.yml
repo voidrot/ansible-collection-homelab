@@ -1,5 +1,10 @@
 ---
 # tasks file for timezone
+- name: Ensure lm-sensors is installed
+  ansible.builtin.package:
+    name: tzdata
+    state: present
+
 - name: Configure Timezone
   community.general.timezone:
     name: "{{ timezone_tz_name | default('UTC') }}"

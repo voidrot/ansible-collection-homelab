@@ -1,0 +1,3 @@
+# {{ ansible_managed }}
+
+deb [arch={{ arch }} signed-by=/etc/apt/keyrings/docker.asc] https://nexus.homelab.monster/repository/apt-docker-{{ ansible_distribution_release }}/ {{ ansible_distribution_release }} stable

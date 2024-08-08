@@ -28,25 +28,45 @@ ufw_reject_apps: []
 #     proto: tcp
 ufw_limit_apps: []
 
+ufw_default_app_profiles:
+  treafik:
+    - app_name: traefik
+      profiles:
+        - name: Traefik
+          title: Web Server
+          description: Allow HTTP and HTTPS traffic
+          tcp_ports:
+            - 80
+            - 443
+            - 8080
+            - 9000
+    - app_name: tempo
+      profiles:
+        - name: Grafana Tempo
+          title: Telemetry Aggregator
+          description: Allow tempo default port
+          tcp_ports:
+            - 3200
+    - app_name: mimir
+      profiles:
+        - name: Grafana Mimir
+          title: Metrics Aggregator
+          description: Allow mimir default port
+          tcp_ports:
+            - 8080
+    - app_name: loki
+      profiles:
+        - name: Loki
+          title: Logging Aggregator
+          description: Allow loki default port
+          tcp_ports:
+            - 3100
+    - app_name: grafana
+      profiles:
+        - name: Grafana
+          title: Monitoring Dashboard
+          description: Allow grafana default port
+          tcp_ports:
+            - 3000
 
-# ufw_custom_app_profiles:
-#   apache:
-#     - name: Apache
-#       title: Web Server
-#       description: Apache Web Server
-#       tcp_ports:
-#         - 80
-#     - name: Apache Secure
-#       title: Web Server
-#       description: Apache Web Server
-#       tcp_ports:
-#         - 443
-#     - name: Apache Full
-#       title: Web Server
-#       description: Apache Web Server
-#       tcp_ports:
-#         - 80
-#         - 443
-#       udp_ports:
-#         - 123
 ufw_custom_app_profiles: []

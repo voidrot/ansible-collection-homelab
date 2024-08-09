@@ -7,10 +7,10 @@ http:
   address: {{ adguard_http_listen_addr | default(hostvars[inventory_hostname]['ansible_default_ipv4']['address']) }}:{{ adguard_http_listen_port }}
   session_ttl: 720h
 users:
-  {% for user in adguard_users %}
+{% for user in adguard_users %}
   - name: {{ user.name }}
-    password: {{ user.password | password_hash('bcrypt', hashtype="blowfish") }}
-  {% endfor %}
+    password: {{ user.password }}
+{% endfor %}
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
@@ -28,7 +28,7 @@ dns:
   refuse_any: true
   upstream_dns:
     {% for local_upstream in adguard_dns_local_upstream_dns %}
-    - {{ "'[/" + local_upstream.address + "/]'" }}{{ local_upstream.target + "'" }}
+    - {{ "'[/" + local_upstream.address + "/]" }}{{ local_upstream.target + "'" }}
     {% endfor %}
     {% for upstream_server in adguard_dns_upstream_dns %}
     - '{{ upstream_server }}'
@@ -37,7 +37,7 @@ dns:
   bootstrap_dns:
     {{ adguard_dns_bootstrap_dns | to_nice_yaml(indent=2) | indent(4) }}
   fallback_dns:
-    - {{ adguard_dns_fallback_dns | to_nice_yaml(indent=2) | indent(4) }}
+    {{ adguard_dns_fallback_dns | to_nice_yaml(indent=2) | indent(4) }}
   upstream_mode: parallel
   fastest_timeout: 1s
   allowed_clients: []
@@ -107,50 +107,7 @@ statistics:
   interval: 2160h
   enabled: true
 filters:
-  - enabled: true
-    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
-    name: AdGuard DNS filter
-    id: 1
-  - enabled: true
-    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_2.txt
-    name: AdAway Default Blocklist
-    id: 2
-  - enabled: true
-    url: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/fake.txt
-    name: hagezi-fake
-    id: 1722929957
-  - enabled: true
-    url: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/tif.txt
-    name: hagezi-threat-intel
-    id: 1722929958
-  - enabled: true
-    url: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/pro.txt
-    name: hagezi-multi-pro
-    id: 1722929959
-  - enabled: true
-    url: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/native.winoffice.txt
-    name: hagezi-native-ms
-    id: 1722929960
-  - enabled: true
-    url: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/native.apple.txt
-    name: hagezi-native-apple
-    id: 1722929961
-  - enabled: true
-    url: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/native.amazon.txt
-    name: hagezi-native-amazon
-    id: 1722929962
-  - enabled: true
-    url: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/native.lgwebos.txt
-    name: hagezi-native-lg
-    id: 1722929963
-  - enabled: true
-    url: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/native.vivo.txt
-    name: hagezi-vivio
-    id: 1722929964
-  - enabled: true
-    url: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/native.xiaomi.txt
-    name: hagezi-native-xiamoi
-    id: 1722929965
+  {{ adguard_filters | to_nice_yaml(indent=2) | indent(2) }}
 whitelist_filters: []
 user_rules: []
 dhcp:
@@ -190,8 +147,8 @@ filtering:
   blocking_mode: default
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
-  rewrites:
-    {{ adguard_filtering_rewrites | to_nice_yaml(indent=2) | indent(4) }}
+  rewrites: []
+    {# {{ adguard_filtering_rewrites | to_nice_yaml(indent=2) | indent(4) }} #}
   safebrowsing_cache_size: 1048576
   safesearch_cache_size: 1048576
   parental_cache_size: 1048576

@@ -4,7 +4,7 @@ adguard_version: "latest"
 adguard_group: adguard
 adguard_user: adguard
 
-adguard_workind_dir: /opt/adguard
+adguard_working_dir: /opt/AdGuardHome
 
 #adguard_http_listen_addr: 
 adguard_http_listen_port: 80
@@ -47,3 +47,5 @@ adguard_filtering_blocked_services_ids: []
   # - plenty_of_fish
   # - onlyfans
   # - mail_ru
+
+adguard_filters: []

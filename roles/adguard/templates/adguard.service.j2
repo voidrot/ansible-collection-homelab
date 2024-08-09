@@ -6,6 +6,8 @@ ConditionFileIsExecutable={{ adguard_working_dir }}/AdGuardHome
 After=syslog.target network-online.target 
 
 [Service]
+User={{ adguard_user }}
+Group={{ adguard_group }}
 StartLimitInterval=5
 StartLimitBurst=10
 ExecStart={{ adguard_working_dir }}/AdGuardHome "-s" "run"

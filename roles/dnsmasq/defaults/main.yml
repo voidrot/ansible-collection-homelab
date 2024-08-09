@@ -1,0 +1,73 @@
+---
+# defaults file for dnsmasq
+dnsmasq_dns_port: 5353
+dnsmasq_domain_needed: true
+dnsmasq_bogus_priv: true
+dnsmasq_resolv_file: ''
+dnsmasq_no_resolv: true
+dnsmasq_no_poll: true
+dnsmasq_bind_interfaces: true
+dnsmasq_listen_address: ''
+dnsmasq_no_dhcp_interface: ''
+dnsmasq_except_interface: ''
+dnsmasq_interface: ''
+dnsmasq_no_hosts: true
+dnsmasq_default_domain: ''
+dnqmasq_dhcp_lease_max: 1024
+dnsmasq_dhcp_authoritative: false
+dnsmasq_dhcp_rapid_commit: false
+dnsmasq_cache_size: 5000
+dnsmasq_addn_hosts: ''
+dnsmasq_expand_hosts: true
+
+dnsmasq_domain_servers:
+  - domain: localnet
+    target: 192.168.0.1
+
+dnsmasq_local_domains:
+  - localnet
+
+dnsmasq_subnet_domains: []
+  # - domain: ''
+  #   subnet: ''
+
+dnsmasq_dhcp_ranges: []
+  # - name: ''
+  #   start: ''
+  #   end: ''
+  #   lease_time: ''
+
+dnsmasq_static_leases: []
+# - name: ''
+#   mac: ''
+#   ip: ''
+
+dnsmasq_dhcp_options: []
+# - subnet: ''
+#   id: ''
+#   value: ''
+
+dnsmasq_dhcp_boot_settings: []
+
+dnsmasq_dns_srv_records: []
+# - name: ''
+#   target: ''
+#   port: ''
+#   priority: ''
+#   weight: ''
+dnsmasq_dns_ptr_records: []
+# - name: ''
+#   target: ''
+dnsmasq_dns_txt_records: []
+# - name: ''
+#   value: ''
+dnsmasq_dns_cname_records: []
+# - name: ''
+#   rewrite: ''
+dnsmasq_dns_mx_records: []
+# - host:
+#   target:
+#   priority:
+dnsmasq_dns_a_records: []
+# - name: ''
+#   ip: ''

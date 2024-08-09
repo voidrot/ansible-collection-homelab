@@ -1,0 +1,51 @@
+---
+# defaults file for adguard
+adguard_version: "latest"
+adguard_group: adguard
+adguard_user: adguard
+
+adguard_working_dir: /opt/AdGuardHome
+
+#adguard_http_listen_addr: 
+adguard_http_listen_port: 80
+
+adguard_users:
+  - name: admin
+    password: password
+
+adguard_dns_bind_hosts:
+  - "{{ ansible_default_ipv4.address }}"
+
+adguard_dns_port: 53
+
+adguard_dns_upstream_dns:
+  - https://dns.cloudflare.com/dns-query
+  - https://dns.google/dns-query
+  - https://unfiltered.adguard-dns.com/dns-query
+
+adguard_dns_local_upstream_dns: []
+  # - address:
+  #   target:
+
+adguard_dns_bootstrap_dns:
+  - 9.9.9.10
+  - 149.112.112.10
+  - 2620:fe::10
+  - 2620:fe::fe:10
+
+adguard_dns_fallback_dns: []
+
+adguard_dns_use_private_ptr_resolvers: true
+adguard_dns_local_ptr_upstreams: []
+
+adguard_filtering_blocked_services_ids: []
+  # - 4chan
+  # - crunchyroll
+  # - tinder
+  # - zhihu
+  # - xiaohongshu
+  # - plenty_of_fish
+  # - onlyfans
+  # - mail_ru
+
+adguard_filters: []

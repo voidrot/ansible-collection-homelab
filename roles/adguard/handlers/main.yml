@@ -1,0 +1,10 @@
+---
+# handlers file for adguard
+- name: Reload systemd
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Restart adguard
+  ansible.builtin.systemd_service:
+    name: adguard
+    state: restarted

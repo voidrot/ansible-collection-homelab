@@ -1,0 +1,5 @@
+{{ ansible_managed | comment}}
+
+{% for dhcp_host in dnsmasq_static_leases %}
+dhcp-host={{ dhcp_host.mac }},{{ dhcp_host.name }},{{ dhcp_host.ip }}
+{% endfor %}

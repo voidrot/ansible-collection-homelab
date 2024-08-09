@@ -1,0 +1,31 @@
+{{ ansible_managed | comment }}
+
+# MX Records
+{% for record in dnsmasq_dns_mx_records %}
+mx-host={{ record.name }},{{ record.target }},{{ record.priority }}
+{% endfor %}
+
+# A Records
+{% for record in dnsmasq_dns_a_records %}
+host-record={{ record.name }},{{ record.ip }}
+{% endfor %}
+
+# CNAME Records
+{% for record in dnsmasq_dns_cname_records %}
+cname={{ record.name }},{{ record.rewrite }}
+{% endfor %}
+
+# TXT Records
+{% for record in dnsmasq_dns_txt_records %}
+txt-record={{ record.name }},{{ record.value }}
+{% endfor %}
+
+# SRV Records
+{% for record in dnsmasq_dns_srv_records %}
+srv-host={{ record.name }},{{ record.target }},{{ record.port }},{{ record.priority }}{{ record.weight }}
+{% endfor %}
+
+# PTR Records
+{% for record in dnsmasq_dns_ptr_records %}
+ptr-record={{ record.ip }},{{ record.name }}
+{% endfor %}

@@ -47,6 +47,7 @@ dependencies:
   community.general: ">=9.2.0"
   community.crypto: ">=2.21.1"
   ansible.posix: ">=1.5.4"
+  community.docker: ">=3.12.0"
 
 # The URL of the originating SCM repository
 repository: https://github.com/voidrot/ansible-collection-homelab

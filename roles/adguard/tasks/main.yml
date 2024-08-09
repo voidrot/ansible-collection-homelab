@@ -1,0 +1,88 @@
+---
+# tasks file for adguard
+- name: Set architecture specific variables
+  ansible.builtin.set_fact:
+    arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+
+- name: Get latest version of AdGuardHome
+  community.general.github_release:
+    user: AdguardTeam
+    repo: AdGuardHome
+    action: latest_release
+  register: adguard_version_latest
+  run_once: true
+  delegate_to: localhost
+  when: adguard_version == "latest"
+
+- name: Verify current deployed version
+  block:
+    - name: Check if AdGuardHome Binary Exists
+      ansible.builtin.stat:
+        path: "{{ adguard_workind_dir }}/AdGuardHome"
+      register: __already_deployed
+    - name: Obtain current deployed AdGuardHome version
+      ansible.builtin.command:
+        cmd: "{{ adguard_workind_dir }}/AdGuardHome --version"
+      changed_when: false
+      register: __current_deployed_version
+      when: __already_deployed.stat.exists | bool
+
+- name: Create AdGuardHome Group
+  ansible.builtin.group:
+    name: "{{ adguard_group }}"
+    system: true
+
+- name: Create AdGuardHome User
+  ansible.builtin.user:
+    name: "{{ adguard_group }}"
+    group: "{{ adguard_group }}"
+    system: true
+    shell: /usr/sbin/nologin
+    home: "{{ adguard_workind_dir }}"
+    createhome: false
+
+- name: Create AdGuardHome working directory
+  ansible.builtin.file:
+    path: "{{ adguard_workind_dir }}"
+    owner: "{{ adguard_group }}"
+    group: "{{ adguard_group }}"
+    state: directory
+    mode: '0755'
+
+- name: Install AdGuardHome Binary
+  ansible.builtin.unarchive:
+    src: "https://github.com/AdguardTeam/AdGuardHome/releases/download/{{ adguard_version_latest.tag }}/AdGuardHome_linux_amd64.tar.gz
+    dest: "{{ adguard_workind_dir }}"
+    owner: "{{ adguard_group }}"
+    group: "{{ adguard_group }}"
+    remote_src: true
+  when:
+    - not __already_deployed.stat.exists or (adguard_version_latest.tag != __current_deployed_version.stdout) or ( adguard_version != "latest" and adguard_version != __current_deployed_version.stdout)
+
+- name: Create AdGuardHome systemd service
+  ansible.builtin.template:
+    src: adguard.service.j2
+    dest: "/etc/systemd/system/adguard.service"
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Reload systemd
+    - Restart adguard
+
+- name: Manage AdGuardHome Configuration
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: "{{ adguard_workind_dir }}/AdGuardHome.yaml"
+    owner: "{{ adguard_group }}"
+    group: "{{ adguard_group }}"
+    mode: '0644'
+  notify:
+    - Restart adguard
+
+- name: Start AdGuardHome service
+  ansible.builtin.systemd:
+    name: adguard.service
+    state: started
+    enabled: true
+    daemon_reload: true

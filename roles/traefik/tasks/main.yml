@@ -18,6 +18,16 @@
   ansible.builtin.import_tasks:
     file: install.yml
 
+- name: Stop Traefik
+  ansible.builtin.systemd:
+    name: traefik
+    state: stopped
+
 - name: Manage configurations
   ansible.builtin.import_tasks:
     file: config.yml
+
+- name: Start Traefik
+  ansible.builtin.systemd:
+    name: traefik
+    state: started

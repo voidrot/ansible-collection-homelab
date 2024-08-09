@@ -1,13 +1,28 @@
 ---
-- name: Import tasks
-  ansible.builtin.include_tasks: "{{ task }}"
-  loop:
-    - install.yml
-    - custom_app.yml
-    - apps.yml
-    - custom_rule.yml
-  loop_control:
-    loop_var: task
+- name: Install UFW
+  ansible.builtin.import_tasks:
+    file: install.yml
+  when:
+    - ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
+    - ufw_enable
+
+- name: Add Custom UFW App Definitions
+  ansible.builtin.import_tasks:
+    file: custom_app.yml
+  when:
+    - ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
+    - ufw_enable
+
+- name: Set UFW App Rules
+  ansible.builtin.import_tasks:
+    file: apps.yml
+  when:
+    - ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
+    - ufw_enable
+
+- name: Add Custom UFW Rules
+  ansible.builtin.import_tasks:
+    file: custom_rule.yml
   when:
     - ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
     - ufw_enable

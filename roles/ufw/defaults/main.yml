@@ -41,14 +41,14 @@ ufw_default_app_profiles:
           - 9000
   - app_name: tempo
     profiles:
-      - name: Grafana Tempo
+      - name: Tempo
         title: Telemetry Aggregator
         description: Allow tempo default port
         tcp_ports:
           - 3200
   - app_name: mimir
     profiles:
-      - name: Grafana Mimir
+      - name: Mimir
         title: Metrics Aggregator
         description: Allow mimir default port
         tcp_ports:

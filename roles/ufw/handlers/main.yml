@@ -7,3 +7,7 @@
 - name: Reset UFW
   community.general.ufw:
     state: reloaded
+
+- name: Restart UFW
+  community.general.ufw:
+    state: restarted

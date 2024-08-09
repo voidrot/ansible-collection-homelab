@@ -1,0 +1,26 @@
+{{ ansible_managed | comment }}
+
+global_defs {
+    router_id {{ keepalived_router_id }}
+    {% for global_def in keepalived_global_defs %}
+    {{ global_def }}
+    {% endfor %}
+}
+
+{% for instance in keepalived_crrp_instances %}
+vrrp_instance {{ instance.name }} {
+    state {{ instance.state }}
+    interface {{ instance.interface }}
+    virtual_router_id {{ instance.virtual_router_id }}
+    priority {{ instance.priority }}
+    advert_int {{ instance.advert_int }}
+    {% for option in instance.custom_options %}
+    {{ option }}
+    {% endfor %}
+    virtual_ipaddress {
+        {% for vip in instance.virtual_ipaddress %}
+        {{ vip }}
+        {% endfor %}
+    }
+}
+{% endfor %}

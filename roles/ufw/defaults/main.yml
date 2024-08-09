@@ -46,6 +46,13 @@ ufw_default_app_profiles:
         description: Allow tempo default port
         tcp_ports:
           - 3200
+          - 9095
+          - 9411
+          - 14250
+          - 14268
+          - 4318
+          - 4317
+          - 55678
   - app_name: mimir
     profiles:
       - name: Mimir

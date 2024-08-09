@@ -35,6 +35,8 @@
     mode: '0644'
     trim_blocks: true
     lstrip_blocks: true
+  notify:
+    - Restart dnsmasq
 
 - name: Manage dnsmasq dns records
   ansible.builtin.template:
@@ -45,3 +47,5 @@
     mode: '0644'
     trim_blocks: true
     lstrip_blocks: true
+  notify:
+    - Restart dnsmasq

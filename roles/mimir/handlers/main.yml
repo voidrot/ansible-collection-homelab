@@ -1,0 +1,11 @@
+---
+# handlers file for mimir
+- name: restart mimir
+  ansible.builtin.systemd:
+    name: mimir
+    state: restarted
+
+- name: Restart mimir
+  ansible.builtin.systemd:
+    name: mimir
+    state: restarted

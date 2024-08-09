@@ -1,0 +1,52 @@
+---
+# defaults file for mimir
+mimir_version: "latest"
+
+mimir_working_path: "/var/lib/mimir"
+
+mimir_http_listen_port: 8080
+mimir_http_listen_address: "0.0.0.0"
+mimir_log_level: warn
+
+mimir_server:
+  http_listen_port: "{{ mimir_http_listen_port }}"
+  http_listen_address: "{{ mimir_http_listen_address }}"
+  log_level: "{{ mimir_log_level }}"
+
+  grpc_server_max_recv_msg_size: 104857600
+  grpc_server_max_send_msg_size: 104857600
+  grpc_server_max_concurrent_streams: 1000
+
+mimir_distributor:
+  ring:
+    kvstore:
+      store: memberlist
+  pool:
+    health_check_ingesters: true
+
+mimir_ingester:
+  ring:
+    min_ready_duration: 0s
+    final_sleep: 0s
+    num_tokens: 512
+    kvstore:
+      store: inmemory
+    replication_factor: 1
+
+mimir_blocks_storage:
+  tsdb:
+    dir: "{{ mimir_working_path }}/tsdb"
+
+  bucket_store:
+    sync_dir: "{{ mimir_working_path }}/tsdb-sync"
+
+mimir_compactor:
+  data_dir: "{{ mimir_working_path }}/compactor"
+
+mimir_ruler_storage:
+  backend: local
+  local:
+    directory: "{{ mimir_working_path }}/rules"
+
+mimir_ruler:
+  rule_path: "{{ mimir_working_path }}/ruler"

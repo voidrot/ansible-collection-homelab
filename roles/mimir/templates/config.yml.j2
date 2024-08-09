@@ -1,0 +1,38 @@
+{{ ansible_managed | comment }}
+
+multitenancy_enabled: false
+
+{% if mimir_server is defined %}
+server:
+  {{ mimir_server | to_nice_yaml(indent=2, sort_keys=False) | indent(2, False)}}
+{% endif %}
+
+{% if mimir_blocks_storage is defined %}
+blocks_storage:
+  {{ mimir_blocks_storage | to_nice_yaml(indent=2, sort_keys=False) | indent(2, False)}}
+{% endif %}
+
+{% if mimir_ruler_storage is defined %}
+ruler_storage:
+  {{ mimir_ruler_storage | to_nice_yaml(indent=2, sort_keys=False) | indent(2, False)}}
+{% endif %}
+
+{% if mimir_distributor is defined %}
+distributor:
+  {{ mimir_distributor | to_nice_yaml(indent=2, sort_keys=False) | indent(2, False)}}
+{% endif %}
+
+{% if mimir_ingester is defined %}
+ingester:
+  {{ mimir_ingester | to_nice_yaml(indent=2, sort_keys=False) | indent(2, False)}}
+{% endif %}
+
+{% if mimir_compactor is defined %}
+compactor:
+  {{ mimir_compactor | to_nice_yaml(indent=2, sort_keys=False) | indent(2, False)}}
+{% endif %}
+
+{% if mimir_runer is defined %}
+ruler:
+  {{ mimir_runer | to_nice_yaml(indent=2, sort_keys=False) | indent(2, False)}}
+{% endif %}

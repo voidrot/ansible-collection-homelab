@@ -5,6 +5,18 @@ GOMAXPROCS={{ ansible_processor_vcpus|default(ansible_processor_count) }}
 
 RESTART_ON_UPGRADE=true
 
+{% if alloy_extra_flags is defined and alloy_extra_flags != '' %}
+EXTRA_FLAGS={{ alloy_flags_extra }}
+{% else %}
+EXTRA_FLAGS=""
+{% endif %}
+
+{% if alloy_extra_args is defined and alloy_extra_args != '' %}
+CUSTOM_ARGS="{{ alloy_extra_args }}"
+{% else %}
+CUSTOM_ARGS=""
+{% endif %}
+
 {% for key, value in alloy_env_file_vars.items() %}
 {{key}}={{value}}
 {% endfor %}
